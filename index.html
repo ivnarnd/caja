@@ -1,216 +1,213 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Caja Responsive</title>
-  <style>
-    body { 
-      font-family: Arial, sans-serif; 
-      margin: 0; 
-      padding: 10px; 
-      display: flex; 
-      flex-direction: column; 
-      align-items: center;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Caja Mejorada</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f2f5; display: flex; flex-direction: column; align-items: center; padding: 20px; }
 
-    h1, h2 { text-align: center; }
+  h1 { margin-bottom: 20px; color: #333; }
+  h2 { margin: 15px 0; color: #555; }
 
-    input { 
-      width: 80%; 
-      padding: 10px; 
-      font-size: 1em; 
-      margin: 5px 0; 
-      border-radius: 5px; 
-      border: 1px solid #ccc; 
-      box-sizing: border-box;
-    }
+  .card { background: #fff; width: 100%; max-width: 420px; padding: 20px; margin-bottom: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
 
-    button { 
-      padding: 15px; 
-      font-size: 1em; 
-      margin: 5px; 
-      border: none; 
-      border-radius: 8px; 
-      cursor: pointer; 
-      width: 80%; 
-    }
+  input { width: 100%; padding: 10px; margin: 8px 0; border-radius: 8px; border: 1px solid #ccc; font-size: 1em; }
 
-    .btn-efectivo { background: green; color: white; }
-    .btn-mp { background: blue; color: white; }
-    .btn-editar { background: orange; color: white; }
-    .btn-cerrar { background: red; color: white; }
+  button { padding: 12px 0; margin: 6px 0; border: none; border-radius: 10px; font-size: 1em; cursor: pointer; transition: 0.3s; width: 100%; }
+  button:hover { opacity: 0.9; }
 
-    .counter {
-      display: flex; 
-      justify-content: center; 
-      align-items: center; 
-      margin: 10px 0;
-      flex-wrap: wrap;
-    }
+  .btn-efectivo { background: #27ae60; color: white; }
+  .btn-mp { background: #3498db; color: white; }
+  .btn-editar { background: #f39c12; color: white; }
+  .btn-cerrar { background: #e74c3c; color: white; }
 
-    .counter button {
-      width: 60px;
-      height: 60px;
-      font-size: 1.5em;
-      margin: 5px;
-    }
+  .counter { display: flex; justify-content: center; align-items: center; margin: 10px 0; flex-wrap: wrap; }
+  .counter button { width: 60px; height: 60px; font-size: 1.5em; margin: 5px; border-radius: 50%; background: #ddd; }
+  .counter span { font-size: 1.5em; margin: 0 20px; min-width: 50px; text-align: center; }
 
-    .counter span {
-      font-size: 1.5em;
-      margin: 0 15px;
-      min-width: 50px;
-      text-align: center;
-    }
+  p, span { font-size: 1.2em; text-align: center; margin: 5px 0; }
 
-    p, span { font-size: 1.2em; text-align: center; }
-
-    @media (min-width: 600px) {
-      input, button { width: 50%; }
-      .counter span { min-width: 70px; font-size: 1.8em; }
-    }
-  </style>
+  /* Cards internas para ventas */
+  .venta-card { background: #fafafa; padding: 15px; margin: 10px 0; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
+  .venta-card h3 { margin-bottom: 10px; color: #444; }
+</style>
 </head>
 <body>
-  <h1>Cambio de Caja</h1>
+<h1>💵 Caja Mejorada</h1>
 
-  <div id="precio-config">
-    <h2>Configurar precios</h2>
-    Entrada: $<input type="number" id="precioEntrada" placeholder="Precio entrada"><br>
-    Estacionamiento: $<input type="number" id="precioEstacionamiento" placeholder="Precio estacionamiento"><br>
-    <button onclick="guardarPrecios()">Guardar Precios</button>
-  </div>
+<div id="precio-config" class="card">
+  <h2>Configurar Precios</h2>
+  <input type="number" id="precioEntrada" placeholder="Precio Entrada">
+  <input type="number" id="precioEstacionamiento" placeholder="Precio Estacionamiento">
+  <button onclick="guardarPrecios()">Guardar Precios</button>
+</div>
 
-  <div id="venta" style="display:none;">
-    <h2>Venta</h2>
+<div id="venta" class="card" style="display:none;">
+  <h2>Registrar Venta</h2>
+
+  <div class="venta-card">
+    <h3>Entradas</h3>
     <div class="counter">
       <button onclick="cambiarCantidad('entrada', -1)">-</button>
       <span id="cantidadEntrada">0</span>
       <button onclick="cambiarCantidad('entrada', 1)">+</button>
     </div>
-    <p>Entradas</p>
+  </div>
 
+  <div class="venta-card">
+    <h3>Estacionamientos</h3>
     <div class="counter">
       <button onclick="cambiarCantidad('estacionamiento', -1)">-</button>
       <span id="cantidadEstacionamiento">0</span>
       <button onclick="cambiarCantidad('estacionamiento', 1)">+</button>
     </div>
-    <p>Estacionamientos</p>
-
-    <p>Total venta: $<span id="totalVenta">0</span></p>
-    <p>Pago con: $<input type="number" id="pagoCon" placeholder="Monto recibido"></p>
-    <p>Vuelto: $<span id="vuelto">0</span></p>
-    <button class="btn-efectivo" onclick="confirmarVenta('efectivo')">Confirmar Efectivo</button>
-    <button class="btn-mp" onclick="confirmarVenta('mp')">Confirmar MP</button>
   </div>
 
+  <p>Total venta: $<span id="totalVenta">0</span></p>
+
+  <input type="number" id="pagoCon" placeholder="Monto recibido">
+  <p>Vuelto: $<span id="vuelto">0</span></p>
+
+  <button class="btn-efectivo" onclick="confirmarVenta('efectivo')">Confirmar Efectivo</button>
+  <button class="btn-mp" onclick="confirmarVenta('mp')">Confirmar MP</button>
+</div>
+
+<div class="card">
   <h2>Resumen</h2>
-  <p>Entradas vendidas: <span id="totalEntradas">0</span></p>
-  <p>Estacionamientos vendidos: <span id="totalEstacionamientos">0</span></p>
+  <div class="venta-card">
+    <h3>Entradas</h3>
+    <p>Total vendidas: <span id="totalEntradas">0</span></p>
+    <p>Efectivo: <span id="entradasEfectivo">0</span> | MP: <span id="entradasMp">0</span></p>
+  </div>
+  <div class="venta-card">
+    <h3>Estacionamientos</h3>
+    <p>Total vendidos: <span id="totalEstacionamientos">0</span></p>
+    <p>Efectivo: <span id="estacionamientosEfectivo">0</span> | MP: <span id="estacionamientosMp">0</span></p>
+  </div>
   <p>Total efectivo: $<span id="totalEfectivo">0</span></p>
   <p>Total MP: $<span id="totalMp">0</span></p>
   <p><b>Total Caja: $<span id="totalCaja">0</span></b></p>
 
   <button class="btn-editar" onclick="editarPrecios()">Editar Precios</button>
   <button class="btn-cerrar" onclick="cerrarCaja()">Cerrar Caja</button>
+</div>
 
-  <script>
-    let precios = { entrada: 0, estacionamiento: 0 };
-    let cantidades = { entrada: 0, estacionamiento: 0 };
-    let totales = { entradas: 0, estacionamientos: 0, efectivo: 0, mp: 0 };
+<script>
+let precios = { entrada: 0, estacionamiento: 0 };
+let cantidades = { entrada: 0, estacionamiento: 0 };
+let totales = { 
+  entradas: 0, estacionamientos: 0, 
+  efectivo: 0, mp: 0, 
+  entradasEfectivo: 0, entradasMp: 0, 
+  estacionamientosEfectivo: 0, estacionamientosMp: 0 
+};
 
-    // Cargar desde storage
-    window.onload = () => {
-      if(localStorage.getItem("precios")){
-        precios = JSON.parse(localStorage.getItem("precios"));
-        document.getElementById("precio-config").style.display = "none";
-        document.getElementById("venta").style.display = "block";
-      }
-      if(localStorage.getItem("totales")){
-        totales = JSON.parse(localStorage.getItem("totales"));
-        actualizarResumen();
-      }
-    };
+window.onload = () => {
+  if(localStorage.getItem("precios")){
+    precios = JSON.parse(localStorage.getItem("precios"));
+    document.getElementById("precio-config").style.display = "none";
+    document.getElementById("venta").style.display = "block";
+  }
+  if(localStorage.getItem("totales")){
+    totales = JSON.parse(localStorage.getItem("totales"));
+    actualizarResumen();
+  }
+};
 
-    function guardarPrecios(){
-      precios.entrada = parseFloat(document.getElementById("precioEntrada").value);
-      precios.estacionamiento = parseFloat(document.getElementById("precioEstacionamiento").value);
-      if(precios.entrada <= 0 || precios.estacionamiento <=0){ alert("Precios válidos!"); return;}
-      localStorage.setItem("precios", JSON.stringify(precios));
-      document.getElementById("precio-config").style.display = "none";
-      document.getElementById("venta").style.display = "block";
-    }
+function guardarPrecios(){
+  precios.entrada = parseFloat(document.getElementById("precioEntrada").value);
+  precios.estacionamiento = parseFloat(document.getElementById("precioEstacionamiento").value);
+  if(precios.entrada <= 0 || precios.estacionamiento <=0){ alert("Precios válidos!"); return;}
+  localStorage.setItem("precios", JSON.stringify(precios));
+  document.getElementById("precio-config").style.display = "none";
+  document.getElementById("venta").style.display = "block";
+}
 
-    function editarPrecios(){
-      localStorage.removeItem("precios");
-      location.reload();
-    }
+function editarPrecios(){
+  localStorage.removeItem("precios");
+  location.reload();
+}
 
-    function cambiarCantidad(tipo, delta){
-      cantidades[tipo] = Math.max(0, cantidades[tipo] + delta);
-      document.getElementById("cantidadEntrada").innerText = cantidades.entrada;
-      document.getElementById("cantidadEstacionamiento").innerText = cantidades.estacionamiento;
-      calcularTotalVenta();
-    }
+function cambiarCantidad(tipo, delta){
+  cantidades[tipo] = Math.max(0, cantidades[tipo] + delta);
+  document.getElementById("cantidadEntrada").innerText = cantidades.entrada;
+  document.getElementById("cantidadEstacionamiento").innerText = cantidades.estacionamiento;
+  calcularTotalVenta();
+}
 
-    function calcularTotalVenta(){
-      let total = cantidades.entrada * precios.entrada + cantidades.estacionamiento * precios.estacionamiento;
-      document.getElementById("totalVenta").innerText = total;
-      return total;
-    }
+function calcularTotalVenta(){
+  let total = cantidades.entrada * precios.entrada + cantidades.estacionamiento * precios.estacionamiento;
+  document.getElementById("totalVenta").innerText = total.toFixed(2);
+  return total;
+}
 
-    function confirmarVenta(metodo){
-      let total = calcularTotalVenta();
-      if(total === 0) return alert("No hay nada para vender.");
+function confirmarVenta(metodo){
+  let total = calcularTotalVenta();
+  if(total === 0) return alert("No hay nada para vender.");
 
-      let pagoCon = parseFloat(document.getElementById("pagoCon").value) || 0;
-      let vuelto = metodo === "efectivo" ? (pagoCon - total) : 0;
-      if(metodo === "efectivo" && vuelto < 0) return alert("El pago no alcanza.");
+  let pagoCon = parseFloat(document.getElementById("pagoCon").value) || 0;
+  let vuelto = metodo === "efectivo" ? (pagoCon - total) : 0;
+  if(metodo === "efectivo" && pagoCon < total) return alert("El pago no alcanza.");
 
-      document.getElementById("vuelto").innerText = vuelto;
+  document.getElementById("vuelto").innerText = metodo === "efectivo" ? vuelto.toFixed(2) : "0";
 
-      totales.entradas += cantidades.entrada;
-      totales.estacionamientos += cantidades.estacionamiento;
-      if(metodo === "efectivo") totales.efectivo += total;
-      else totales.mp += total;
+  // Totales generales
+  totales.entradas += cantidades.entrada;
+  totales.estacionamientos += cantidades.estacionamiento;
+  if(metodo === "efectivo"){
+    totales.efectivo += total;
+    totales.entradasEfectivo += cantidades.entrada;
+    totales.estacionamientosEfectivo += cantidades.estacionamiento;
+  } else {
+    totales.mp += total;
+    totales.entradasMp += cantidades.entrada;
+    totales.estacionamientosMp += cantidades.estacionamiento;
+  }
 
-      localStorage.setItem("totales", JSON.stringify(totales));
-      actualizarResumen();
+  localStorage.setItem("totales", JSON.stringify(totales));
+  actualizarResumen();
 
-      cantidades = { entrada: 0, estacionamiento: 0 };
-      document.getElementById("cantidadEntrada").innerText = 0;
-      document.getElementById("cantidadEstacionamiento").innerText = 0;
-      document.getElementById("totalVenta").innerText = 0;
-      document.getElementById("pagoCon").value = "";
-      document.getElementById("vuelto").innerText = 0;
-    }
+  cantidades = { entrada: 0, estacionamiento: 0 };
+  document.getElementById("cantidadEntrada").innerText = 0;
+  document.getElementById("cantidadEstacionamiento").innerText = 0;
+  document.getElementById("totalVenta").innerText = 0;
+  document.getElementById("pagoCon").value = "";
+}
 
-    function actualizarResumen(){
-      document.getElementById("totalEntradas").innerText = totales.entradas;
-      document.getElementById("totalEstacionamientos").innerText = totales.estacionamientos;
-      document.getElementById("totalEfectivo").innerText = totales.efectivo.toFixed(2);
-      document.getElementById("totalMp").innerText = totales.mp.toFixed(2);
-      document.getElementById("totalCaja").innerText = (totales.efectivo + totales.mp).toFixed(2);
-    }
+function actualizarResumen(){
+  document.getElementById("totalEntradas").innerText = totales.entradas;
+  document.getElementById("entradasEfectivo").innerText = totales.entradasEfectivo;
+  document.getElementById("entradasMp").innerText = totales.entradasMp;
 
-    function cerrarCaja(){
-      let contenido = 
-        `Entradas: ${totales.entradas}\n` +
-        `Estacionamientos: ${totales.estacionamientos}\n` +
-        `Total efectivo: $${totales.efectivo.toFixed(2)}\n` +
-        `Total MP: $${totales.mp.toFixed(2)}\n` +
-        `TOTAL CAJA: $${(totales.efectivo + totales.mp).toFixed(2)}\n`;
-      
-      let blob = new Blob([contenido], { type: "text/plain" });
-      let link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download = "cierre_caja.txt";
-      link.click();
+  document.getElementById("totalEstacionamientos").innerText = totales.estacionamientos;
+  document.getElementById("estacionamientosEfectivo").innerText = totales.estacionamientosEfectivo;
+  document.getElementById("estacionamientosMp").innerText = totales.estacionamientosMp;
 
-      totales = { entradas: 0, estacionamientos: 0, efectivo: 0, mp: 0 };
-      localStorage.setItem("totales", JSON.stringify(totales));
-      actualizarResumen();
-    }
-  </script>
+  document.getElementById("totalEfectivo").innerText = totales.efectivo.toFixed(2);
+  document.getElementById("totalMp").innerText = totales.mp.toFixed(2);
+  document.getElementById("totalCaja").innerText = (totales.efectivo + totales.mp).toFixed(2);
+}
+
+function cerrarCaja(){
+  let contenido = 
+    `Entradas: ${totales.entradas} (Efectivo: ${totales.entradasEfectivo} | MP: ${totales.entradasMp})\n` +
+    `Estacionamientos: ${totales.estacionamientos} (Efectivo: ${totales.estacionamientosEfectivo} | MP: ${totales.estacionamientosMp})\n` +
+    `Total efectivo: $${totales.efectivo.toFixed(2)}\n` +
+    `Total MP: $${totales.mp.toFixed(2)}\n` +
+    `TOTAL CAJA: $${(totales.efectivo + totales.mp).toFixed(2)}\n`;
+
+  let blob = new Blob([contenido], { type: "text/plain" });
+  let link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = "cierre_caja.txt";
+  link.click();
+
+  totales = { entradas: 0, estacionamientos: 0, efectivo: 0, mp: 0, entradasEfectivo: 0, entradasMp: 0, estacionamientosEfectivo: 0, estacionamientosMp: 0 };
+  localStorage.setItem("totales", JSON.stringify(totales));
+  actualizarResumen();
+}
+</script>
 </body>
 </html>
